@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from products.models import Product
+from django.utils import timezone
 
 class Order(models.Model):
     STATUS_CHOICES = [
@@ -28,3 +29,16 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product.name} x {self.quantity}"
+
+
+class Payment(models.Model):
+    order = models.OneToOneField('Order', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_method = models.CharField(max_length=50)  # مثل کارت به کارت، آنلاین و غیره
+    payment_status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('completed', 'Completed'), ('failed', 'Failed')])
+    payment_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Payment for Order {self.order.id} - {self.payment_status}"
+
