@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "products",
     "orders",
     "django_filters",
+    "corsheaders", 
 ]
 
 MIDDLEWARE = [
@@ -53,8 +54,14 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://verbose-spork-7v9rq4x7rvvvcxx54-3000.app.github.dev",  # آدرس فرانت React
+    "http://localhost:3000",
+]
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
